@@ -39,7 +39,7 @@ const apiURL = 'https://dummyjson.com';
     }
 
     async function loadCategories() {
-      const res = await fetch(`${apiURL}/products/categories`);
+      const res = await fetch(`${apiURL}/products/category-list`);
       const categories = await res.json();
 
       categoriesNav.innerHTML = '';
@@ -56,19 +56,11 @@ const apiURL = 'https://dummyjson.com';
       homeLi.appendChild(homeA);
       categoriesNav.appendChild(homeLi);
 
-      // Check which categories have products
-      const categoriesWithProducts = new Set();
-      const allProducts = await fetch(`${apiURL}/products?limit=100`).then(r => r.json());
-      
-      allProducts.products.forEach(product => {
-        categoriesWithProducts.add(product.category);
-      });
-
-      // Organize categories into mega menu groups based on actual product categories
+      // Organize categories into mega menu groups
       const megaMenuGroups = {
-        'Electronics Products': ['smartphones', 'laptops', 'tablets'],
-        'Home Products': ['furniture', 'home-decoration', 'kitchen-accessories', 'groceries', 'lighting'],
-        'Clothes': ['mens-shirts', 'mens-shoes', 'mens-watches', 'womens-dresses', 'womens-shoes', 'womens-watches', 'womens-bags', 'womens-jewellery', 'tops', 'sunglasses', 'womens-jewelry']
+        'Electronics Products': ['smartphones', 'laptops', 'automotive'],
+        'Home Products': ['furniture', 'home-decoration', 'lighting', 'kitchen-accessories'],
+        'Clothes & Accessories': ['mens-shirts', 'mens-shoes', 'mens-watches', 'womens-dresses', 'womens-shoes', 'womens-watches', 'womens-bags', 'womens-jewellery', 'tops', 'sunglasses']
       };
 
       // Create mega menu structure
@@ -114,6 +106,27 @@ const apiURL = 'https://dummyjson.com';
               };
               dropdown.appendChild(categoryA);
             }
+            if (groupName === 'Home Products') {
+              const categoryA = document.createElement('a');
+              categoryA.href = `#${categoryName}`;
+              categoryA.textContent = categoryName.charAt(0).toUpperCase() + categoryName.slice(1).replace('-', ' ');
+              categoryA.onclick = e => {
+                e.preventDefault();
+                showProducts(categoryName);
+              };
+              dropdown.appendChild(categoryA);
+            }
+            if (groupName === 'Clothes & Accessories') {
+              const categoryA = document.createElement('a');
+              categoryA.href = `#${categoryName}`;
+              categoryA.textContent = categoryName.charAt(0).toUpperCase() + categoryName.slice(1).replace('-', ' ');
+              categoryA.onclick = e => {
+                e.preventDefault();
+                showProducts(categoryName);
+              };
+              dropdown.appendChild(categoryA);
+            }
+
           }
         });
         
