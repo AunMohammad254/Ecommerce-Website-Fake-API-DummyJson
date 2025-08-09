@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <title>Fake Store</title>
+</head>
+<body>
+  <header>
+    <div class="logo">FakeStore</div>
+    <nav>
+      <ul id="categories">
+        <!-- Mega menu structure will be injected here -->
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home-section" class="home-section">
+      <h1>Welcome to FakeStore!</h1>
+      <p>Discover the best products in our store. Use the categories above to browse.</p>
+    </section>
+    <section id="products" class="hero"></section>
+  </main>
+
+  <div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <p id="modal-message"></p>
+      <button class="close-btn" onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
+  <div id="panelOverlay" class="panel-overlay"></div>
+
+  <div id="cartPanel" class="panel"></div>
+  <div id="wishlistPanel" class="panel"></div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="modal" onclick="closeCheckoutModal(event)">
+    <div class="modal-content checkout-modal" onclick="event.stopPropagation()">
+      <h2>Checkout</h2>
+      <div id="checkoutContent">
+        <!-- Checkout content will be populated here -->
+      </div>
+      <button class="close-btn" onclick="closeCheckoutModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Cart Animation Element -->
+  <div id="cartAnimation" class="cart-animation">
+    <span>🛒</span>
+    <span class="animation-text">Added to Cart!</span>
+  </div>
+
+  <footer>
+    The Fake store is Made by Aun Abbas
+  </footer>
+</body>
+</html>
