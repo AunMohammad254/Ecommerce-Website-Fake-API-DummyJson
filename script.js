@@ -270,6 +270,20 @@ const apiURL = 'https://dummyjson.com';
     function setWishlist(wishlist) {
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
     }
+    
+    // Calculate total price of items in cart
+    async function calculateTotal() {
+      const cart = getCart();
+      if (cart.length === 0) return 0;
+      
+      try {
+        const products = await Promise.all(cart.map(id => fetch(`${apiURL}/products/${id}`).then(r => r.json())));
+        return products.reduce((sum, product) => sum + product.price, 0).toFixed(2);
+      } catch (error) {
+        console.error('Error calculating total:', error);
+        return 0;
+      }
+    }
 
     // Add to cart with animation
     function addToCart(productId) {
@@ -518,6 +532,20 @@ const apiURL = 'https://dummyjson.com';
               📱 You will receive a payment request on your Easypaisa account
             </p>
           `;
+          
+          try {
+            const customerEmail = document.getElementById('customerEmail').value;
+            if (customerEmail) {
+              // Send email notification to customer
+              sendEmail(customerEmail, 
+                'Easypaisa Payment Request', 
+                'Your payment request has been received. Please complete the payment through your Easypaisa account.'
+              );
+            }
+          } catch (error) {
+            console.error('Failed to send email notification:', error);
+          }
+          
           break;
           
         case 'jazzcash':
@@ -530,6 +558,20 @@ const apiURL = 'https://dummyjson.com';
               📱 You will receive a payment request on your JazzCash account
             </p>
           `;
+          
+          try {
+            const customerEmail = document.getElementById('customerEmail').value;
+            if (customerEmail) {
+              // Send email notification to customer
+              sendEmail(customerEmail, 
+                'JazzCash Payment Request', 
+                'Your payment request has been received. Please complete the payment through your JazzCash account.'
+              );
+            }
+          } catch (error) {
+            console.error('Failed to send email notification:', error);
+          }
+          
           break;
           
         case 'bank':
@@ -555,6 +597,22 @@ const apiURL = 'https://dummyjson.com';
               🏦 Transfer details will be sent to your email
             </p>
           `;
+          
+          try {
+            const customerEmail = document.getElementById('customerEmail').value;
+            if (customerEmail) {
+              // Calculate total and send email with payment details
+              calculateTotal().then(total => {
+                sendEmail(customerEmail, 
+                  'Bank Transfer Details', 
+                  `Your order has been placed. Please transfer the payment of $${total} to our bank account. Details: Bank: FakeBank, Account: 1234-5678-9012, Reference: ORDER-${Date.now().toString().slice(-6)}`
+                );
+              });
+            }
+          } catch (error) {
+            console.error('Failed to send email notification:', error);
+          }
+          
           break;
           
         case 'cod':
@@ -563,6 +621,20 @@ const apiURL = 'https://dummyjson.com';
               💵 You will pay cash when your order is delivered to your address
             </p>
           `;
+          
+          try {
+            const customerEmail = document.getElementById('customerEmail').value;
+            if (customerEmail) {
+              // Send email notification to customer
+              sendEmail(customerEmail, 
+                'Cash on Delivery Order Confirmation', 
+                'Your order has been placed successfully. You will pay cash when your order is delivered to your address.'
+              );
+            }
+          } catch (error) {
+            console.error('Failed to send email notification:', error);
+          }
+          
           break;
       }
     }
@@ -581,10 +653,33 @@ const apiURL = 'https://dummyjson.com';
       const customerPhone = document.getElementById('customerPhone').value;
       const customerAddress = document.getElementById('customerAddress').value;
       const paymentMethod = selectedPayment.dataset.method;
+      
+      // Generate order number
+      const orderNumber = 'ORD-' + Date.now().toString().slice(-8);
+      
+      // Send final confirmation email
+      calculateTotal().then(total => {
+        const emailBody = `
+          Dear ${customerName},
+
+          Thank you for your order!
+
+          Order Number: ${orderNumber}
+          Total Amount: $${total}
+          Payment Method: ${paymentMethod.toUpperCase()}
+          Shipping Address: ${customerAddress}
+
+          Your order will be processed shortly. You will receive updates on your order status.
+
+          Thank you for shopping with FakeStore!
+        `;
+        
+        sendEmail(customerEmail, 'Order Confirmation - ' + orderNumber, emailBody);
+      });
 
       // Simulate order processing
       closeCheckoutModal();
-      showModal(`Order placed successfully! 🎉\n\nOrder Details:\nName: ${customerName}\nPayment: ${paymentMethod.toUpperCase()}\n\nYou will receive a confirmation email shortly.`);
+      showModal(`Order placed successfully! 🎉\n\nOrder Details:\nName: ${customerName}\nOrder #: ${orderNumber}\nPayment: ${paymentMethod.toUpperCase()}\n\nA confirmation email has been sent to ${customerEmail}.`);
       
       // Clear cart after successful order
       setCart([]);
@@ -598,6 +693,68 @@ const apiURL = 'https://dummyjson.com';
       }
     }
 
+    // Email functionality using EmailJS
+    // Initialize EmailJS
+    (function() {
+      // Replace with your EmailJS public key
+      emailjs.init("Vvg73yzWgobsWNWMq");
+    })();
+    
+    function sendEmail(to, subject, body) {
+      // Prepare template parameters
+      const templateParams = {
+        to_email: to,
+        subject: subject,
+        message: body
+      };
+      
+      // Send email using EmailJS
+      // Replace with your service ID and template ID
+      emailjs.send("service_6gomw7p", "template_cyh3e2k", templateParams)
+        .then(function(response) {
+          console.log("Email sent successfully!", response.status, response.text);
+          
+          // Show a notification to the user
+          const emailNotification = document.createElement('div');
+          emailNotification.className = 'cart-animation';
+          emailNotification.innerHTML = `<span>📧</span> Email sent to ${to}`;
+          document.body.appendChild(emailNotification);
+          
+          // Show and then hide the notification
+          setTimeout(() => {
+            emailNotification.classList.add('show');
+            setTimeout(() => {
+              emailNotification.classList.remove('show');
+              setTimeout(() => {
+                document.body.removeChild(emailNotification);
+              }, 500);
+            }, 3000);
+          }, 100);
+        }, function(error) {
+          console.error("Failed to send email:", error);
+          
+          // Show error notification
+          const errorNotification = document.createElement('div');
+          errorNotification.className = 'cart-animation';
+          errorNotification.style.backgroundColor = '#ff6666';
+          errorNotification.innerHTML = `<span>❌</span> Failed to send email`;
+          document.body.appendChild(errorNotification);
+          
+          // Show and then hide the error notification
+          setTimeout(() => {
+            errorNotification.classList.add('show');
+            setTimeout(() => {
+              errorNotification.classList.remove('show');
+              setTimeout(() => {
+                document.body.removeChild(errorNotification);
+              }, 500);
+            }, 3000);
+          }, 100);
+        });
+      
+      return true;
+    }
+    
     // Close dropdown menus when clicking outside
     document.addEventListener('click', function(event) {
       const dropdowns = document.querySelectorAll('.mega-dropdown');
