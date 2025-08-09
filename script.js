@@ -86,6 +86,15 @@ const apiURL = 'https://dummyjson.com';
             categoryA.onclick = e => {
               e.preventDefault();
               showProducts(categoryName);
+              // Auto-hide dropdown menu when an item is clicked
+              dropdown.style.opacity = '0';
+              dropdown.style.visibility = 'hidden';
+              dropdown.style.transform = 'translateY(-10px)';
+              setTimeout(() => {
+                dropdown.style.opacity = '';
+                dropdown.style.visibility = '';
+                dropdown.style.transform = '';
+              }, 300);
             };
             dropdown.appendChild(categoryA);
           }
@@ -103,6 +112,15 @@ const apiURL = 'https://dummyjson.com';
               categoryA.onclick = e => {
                 e.preventDefault();
                 showProducts(categoryName);
+                // Auto-hide dropdown menu when an item is clicked
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                  dropdown.style.opacity = '';
+                  dropdown.style.visibility = '';
+                  dropdown.style.transform = '';
+                }, 300);
               };
               dropdown.appendChild(categoryA);
             }
@@ -113,6 +131,15 @@ const apiURL = 'https://dummyjson.com';
               categoryA.onclick = e => {
                 e.preventDefault();
                 showProducts(categoryName);
+                // Auto-hide dropdown menu when an item is clicked
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                  dropdown.style.opacity = '';
+                  dropdown.style.visibility = '';
+                  dropdown.style.transform = '';
+                }, 300);
               };
               dropdown.appendChild(categoryA);
             }
@@ -123,6 +150,15 @@ const apiURL = 'https://dummyjson.com';
               categoryA.onclick = e => {
                 e.preventDefault();
                 showProducts(categoryName);
+                // Auto-hide dropdown menu when an item is clicked
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                  dropdown.style.opacity = '';
+                  dropdown.style.visibility = '';
+                  dropdown.style.transform = '';
+                }, 300);
               };
               dropdown.appendChild(categoryA);
             }
@@ -274,7 +310,7 @@ const apiURL = 'https://dummyjson.com';
     // Render cart panel
     async function renderCart() {
       const cart = getCart();
-      cartPanel.innerHTML = '<h2>Your Cart</h2>';
+      cartPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Cart</h2><button class="close-panel-btn" onclick="hidePanels()">✕</button></div>';
       if (cart.length === 0) {
         cartPanel.innerHTML += '<p class="empty">Your cart is empty.</p>';
         return;
@@ -323,7 +359,7 @@ const apiURL = 'https://dummyjson.com';
     // Render wishlist panel
     async function renderWishlist() {
       const wishlist = getWishlist();
-      wishlistPanel.innerHTML = '<h2>Your Wishlist</h2>';
+      wishlistPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Wishlist</h2><button class="close-panel-btn" onclick="hidePanels()">✕</button></div>';
       if (wishlist.length === 0) {
         wishlistPanel.innerHTML += '<p class="empty">Your wishlist is empty.</p>';
         return;
@@ -561,6 +597,34 @@ const apiURL = 'https://dummyjson.com';
         checkoutModal.style.display = 'none';
       }
     }
+
+    // Close dropdown menus when clicking outside
+    document.addEventListener('click', function(event) {
+      const dropdowns = document.querySelectorAll('.mega-dropdown');
+      const menus = document.querySelectorAll('.mega-menu');
+      
+      // Check if the click is outside any mega-menu
+      let clickedOutside = true;
+      menus.forEach(menu => {
+        if (menu.contains(event.target)) {
+          clickedOutside = false;
+        }
+      });
+      
+      // If clicked outside, hide all dropdowns
+      if (clickedOutside) {
+        dropdowns.forEach(dropdown => {
+          dropdown.style.opacity = '0';
+          dropdown.style.visibility = 'hidden';
+          dropdown.style.transform = 'translateY(-10px)';
+          setTimeout(() => {
+            dropdown.style.opacity = '';
+            dropdown.style.visibility = '';
+            dropdown.style.transform = '';
+          }, 300);
+        });
+      }
+    });
 
     window.onload = () => {
       loadCategories();
