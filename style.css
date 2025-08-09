@@ -5,7 +5,15 @@ body {
   background-color: #0e0e0e;
   color: #00ffff;
   list-style: none;
-  text-decoration: none;
+}
+
+/* Remove text decoration from all links */
+* {
+  text-decoration: none !important;
+}
+
+a, a:hover, a:visited, a:active {
+  text-decoration: none !important;
 }
 header {
   background-color: #111;
@@ -15,6 +23,8 @@ header {
   align-items: center;
   color: #00ffff;
   flex-wrap: wrap;
+  border: 2px solid turquoise;
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
 }
 .logo {
   font-size: 1.5rem;
@@ -108,11 +118,13 @@ nav button {
 }
 nav a:hover,
 nav button:hover {
-  text-decoration: underline;
-  color: #00cccc;
+  text-decoration: none !important;
+  color: #000000;
+  background-color: #00ffff;
+  border-radius: 4px;
 }
 nav a.active {
-  text-decoration: underline;
+  text-decoration: none !important;
   color: #00cccc;
   font-weight: bold;
 }
