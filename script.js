@@ -696,64 +696,83 @@ const apiURL = 'https://dummyjson.com';
     // Email functionality using EmailJS
     // Initialize EmailJS
     (function() {
-      // Replace with your EmailJS public key
-      emailjs.init("Vvg73yzWgobsWNWMq");
+      try {
+        // Replace with your EmailJS public key
+        emailjs.init("Vvg73yzWgobsWNWMq");
+        console.log("EmailJS initialized successfully");
+      } catch (error) {
+        console.error("Failed to initialize EmailJS:", error);
+      }
     })();
     
     function sendEmail(to, subject, body) {
-      // Prepare template parameters
-      const templateParams = {
-        to_email: to,
-        subject: subject,
-        message: body
-      };
-      
-      // Send email using EmailJS
-      // Replace with your service ID and template ID
-      emailjs.send("service_6gomw7p", "template_cyh3e2k", templateParams)
-        .then(function(response) {
-          console.log("Email sent successfully!", response.status, response.text);
-          
-          // Show a notification to the user
-          const emailNotification = document.createElement('div');
-          emailNotification.className = 'cart-animation';
-          emailNotification.innerHTML = `<span>📧</span> Email sent to ${to}`;
-          document.body.appendChild(emailNotification);
-          
-          // Show and then hide the notification
-          setTimeout(() => {
-            emailNotification.classList.add('show');
-            setTimeout(() => {
-              emailNotification.classList.remove('show');
-              setTimeout(() => {
-                document.body.removeChild(emailNotification);
-              }, 500);
-            }, 3000);
-          }, 100);
-        }, function(error) {
-          console.error("Failed to send email:", error);
-          
-          // Show error notification
-          const errorNotification = document.createElement('div');
-          errorNotification.className = 'cart-animation';
-          errorNotification.style.backgroundColor = '#ff6666';
-          errorNotification.innerHTML = `<span>❌</span> Failed to send email`;
-          document.body.appendChild(errorNotification);
-          
-          // Show and then hide the error notification
-          setTimeout(() => {
-            errorNotification.classList.add('show');
-            setTimeout(() => {
-              errorNotification.classList.remove('show');
-              setTimeout(() => {
-                document.body.removeChild(errorNotification);
-              }, 500);
-            }, 3000);
-          }, 100);
-        });
-      
-      return true;
+      try {
+        // Prepare template parameters
+        const templateParams = {
+          to_email: to,
+          subject: subject,
+          message: body
+        };
+        
+        // Check if EmailJS is properly initialized
+        if (typeof emailjs === 'undefined') {
+          console.error("EmailJS is not defined. Make sure the EmailJS SDK is properly loaded.");
+          showNotification("Failed to send email: EmailJS not loaded", true);
+          return false;
+        }
+        
+        // Send email using EmailJS
+        // Replace with your service ID and template ID
+        emailjs.send("service_6gomw7p", "template_cyh3e2k", templateParams)
+          .then(function(response) {
+            console.log("Email sent successfully!", response.status, response.text);
+            showNotification(`Email sent to ${to}`, false);
+          })
+          .catch(function(error) {
+            console.error("Failed to send email:", error);
+            showNotification("Failed to send email", true);
+          });
+        
+        return true;
+      } catch (error) {
+        console.error("Error in sendEmail function:", error);
+        showNotification("Error sending email", true);
+        return false;
+      }
     }
+    
+    // Helper function to show notifications
+    function showNotification(message, isError) {
+      try {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'cart-animation';
+        
+        if (isError) {
+          notification.style.backgroundColor = '#ff6666';
+          notification.innerHTML = `<span>❌</span> ${message}`;
+        } else {
+          notification.innerHTML = `<span>📧</span> ${message}`;
+        }
+        
+        document.body.appendChild(notification);
+        
+        // Show and then hide the notification
+        setTimeout(() => {
+          notification.classList.add('show');
+          setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+              if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+              }
+            }, 500);
+          }, 3000);
+        }, 100);
+      } catch (err) {
+          console.error("Error showing notification:", err);
+        }
+      }
     
     // Close dropdown menus when clicking outside
     document.addEventListener('click', function(event) {

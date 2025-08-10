@@ -6,6 +6,11 @@
   <link rel="stylesheet" href="style.css">
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <!-- Prevent Vite inspector from loading -->
+  <script>
+    window.__VUE_DEVTOOLS_GLOBAL_HOOK__ = { Vue: null };
+    window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
+  </script>
   <script src="script.js" defer></script>
   <title>Fake Store</title>
 </head>
