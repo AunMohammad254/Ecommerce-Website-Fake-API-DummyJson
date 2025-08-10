@@ -324,7 +324,7 @@ const apiURL = 'https://dummyjson.com';
     // Render cart panel
     async function renderCart() {
       const cart = getCart();
-      cartPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Cart</h2><button class="close-panel-btn" onclick="hidePanels()">✕</button></div>';
+      cartPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Cart</h2><button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" class="close-panel-btn" onclick="hidePanels()"><i class="fa-solid fa-circle-xmark"></i></button></div>';
       if (cart.length === 0) {
         cartPanel.innerHTML += '<p class="empty">Your cart is empty.</p>';
         return;
@@ -373,7 +373,7 @@ const apiURL = 'https://dummyjson.com';
     // Render wishlist panel
     async function renderWishlist() {
       const wishlist = getWishlist();
-      wishlistPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Wishlist</h2><button class="close-panel-btn" onclick="hidePanels()">✕</button></div>';
+      wishlistPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Wishlist</h2><button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" class="close-panel-btn" onclick="hidePanels()"><i class="fa-solid fa-circle-xmark"></i></button></div>';
       if (wishlist.length === 0) {
         wishlistPanel.innerHTML += '<p class="empty">Your wishlist is empty.</p>';
         return;
