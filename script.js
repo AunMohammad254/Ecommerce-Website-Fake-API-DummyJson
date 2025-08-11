@@ -71,7 +71,19 @@ const apiURL = 'https://dummyjson.com';
         const megaA = document.createElement('a');
         megaA.href = '#';
         megaA.textContent = groupName;
-        megaA.onclick = e => e.preventDefault();
+        megaA.onclick = e => {
+          e.preventDefault();
+          
+          // Close all other dropdowns
+          document.querySelectorAll('.mega-menu').forEach(menu => {
+            if (menu !== megaLi && menu.classList.contains('active')) {
+              menu.classList.remove('active');
+            }
+          });
+          
+          // Toggle current dropdown
+          megaLi.classList.toggle('active');
+        };
         
         const dropdown = document.createElement('div');
         dropdown.className = 'mega-dropdown';
@@ -86,15 +98,8 @@ const apiURL = 'https://dummyjson.com';
             categoryA.onclick = e => {
               e.preventDefault();
               showProducts(categoryName);
-              // Auto-hide dropdown menu when an item is clicked
-              dropdown.style.opacity = '0';
-              dropdown.style.visibility = 'hidden';
-              dropdown.style.transform = 'translateY(-10px)';
-              setTimeout(() => {
-                dropdown.style.opacity = '';
-                dropdown.style.visibility = '';
-                dropdown.style.transform = '';
-              }, 300);
+              // Hide dropdown menu when an item is clicked
+              megaLi.classList.remove('active');
             };
             dropdown.appendChild(categoryA);
           }
@@ -112,15 +117,8 @@ const apiURL = 'https://dummyjson.com';
               categoryA.onclick = e => {
                 e.preventDefault();
                 showProducts(categoryName);
-                // Auto-hide dropdown menu when an item is clicked
-                dropdown.style.opacity = '0';
-                dropdown.style.visibility = 'hidden';
-                dropdown.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                  dropdown.style.opacity = '';
-                  dropdown.style.visibility = '';
-                  dropdown.style.transform = '';
-                }, 300);
+                // Hide dropdown menu when an item is clicked
+                megaLi.classList.remove('active');
               };
               dropdown.appendChild(categoryA);
             }
@@ -131,15 +129,8 @@ const apiURL = 'https://dummyjson.com';
               categoryA.onclick = e => {
                 e.preventDefault();
                 showProducts(categoryName);
-                // Auto-hide dropdown menu when an item is clicked
-                dropdown.style.opacity = '0';
-                dropdown.style.visibility = 'hidden';
-                dropdown.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                  dropdown.style.opacity = '';
-                  dropdown.style.visibility = '';
-                  dropdown.style.transform = '';
-                }, 300);
+                // Hide dropdown menu when an item is clicked
+                megaLi.classList.remove('active');
               };
               dropdown.appendChild(categoryA);
             }
@@ -150,15 +141,8 @@ const apiURL = 'https://dummyjson.com';
               categoryA.onclick = e => {
                 e.preventDefault();
                 showProducts(categoryName);
-                // Auto-hide dropdown menu when an item is clicked
-                dropdown.style.opacity = '0';
-                dropdown.style.visibility = 'hidden';
-                dropdown.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                  dropdown.style.opacity = '';
-                  dropdown.style.visibility = '';
-                  dropdown.style.transform = '';
-                }, 300);
+                // Hide dropdown menu when an item is clicked
+                megaLi.classList.remove('active');
               };
               dropdown.appendChild(categoryA);
             }
@@ -214,9 +198,18 @@ const apiURL = 'https://dummyjson.com';
           <h3>${product.title}</h3>
           <p class="price">$${product.price.toFixed(2)}</p>
           <div class="buttons">
-            <button onclick="showProductDetails(${product.id})">Details</button>
-            <button onclick="addToCart(${product.id})">Add to Cart</button>
-            <button onclick="addToWishlist(${product.id})">Add to Wishlist</button>
+            <button class="morphing-button" onclick="showProductDetails(${product.id})">
+              <span>Details</span>
+              <i class="fas fa-info-circle"></i>
+            </button>
+            <button class="morphing-button" onclick="addToCart(${product.id})">
+              <span>Add to Cart</span>
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+            <button class="morphing-button" onclick="addToWishlist(${product.id})">
+              <span>Wishlist</span>
+              <i class="fas fa-heart"></i>
+            </button>
           </div>
         `;
         productsContainer.appendChild(div);
@@ -806,3 +799,14 @@ const apiURL = 'https://dummyjson.com';
       loadCategories();
       showHome();
     };
+    
+    // Close dropdown menus when clicking outside
+    document.addEventListener('click', function(event) {
+      const target = event.target;
+      // Check if the click is outside any mega-menu
+      if (!target.closest('.mega-menu')) {
+        document.querySelectorAll('.mega-menu.active').forEach(menu => {
+          menu.classList.remove('active');
+        });
+      }
+    });
