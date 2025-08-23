@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; object-src 'none';" />
+  <meta name="referrer" content="no-referrer" />
+  <!-- Favicon to prevent 404 error -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <!-- Prevent development tools and inspectors from loading -->
+   <script>
+     // Complete prevention of development tools
+     (function() {
+       'use strict';
+       
+       // Prevent Vite client injection
+       window.__vite_is_modern_browser = false;
+       window.__VITE_IS_MODERN_BROWSER__ = false;
+       window.__vite_plugin_react_preamble_installed__ = true;
+       
+       // Prevent Vue DevTools
+       window.__VUE_DEVTOOLS_GLOBAL_HOOK__ = { 
+         Vue: null,
+         isDisabled: true,
+         emit: () => {},
+         on: () => {},
+         once: () => {},
+         off: () => {},
+         apps: []
+       };
+       
+       // Prevent React DevTools completely
+       window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { 
+         isDisabled: true,
+         supportsFiber: false,
+         inject: () => {},
+         onCommitFiberRoot: () => {},
+         onCommitFiberUnmount: () => {},
+         checkDCE: () => {},
+         onScheduleFiberRoot: () => {},
+         setStrictMode: () => {},
+         supportsProfiling: false,
+         supportsStrictMode: false
+       };
+       
+       // Prevent any React-related globals
+       Object.defineProperty(window, 'React', {
+         get: () => undefined,
+         set: () => {},
+         configurable: false
+       });
+       
+       Object.defineProperty(window, 'ReactDOM', {
+         get: () => undefined,
+         set: () => {},
+         configurable: false
+       });
+       
+       // Override console methods to suppress development tool errors
+       const originalConsole = {
+         error: console.error,
+         warn: console.warn,
+         log: console.log
+       };
+       
+       const suppressedPatterns = [
+         'Minified React error',
+         'inspector.',
+         '@vite/client',
+         'Failed to load resource',
+         'react-devtools',
+         '__REACT_DEVTOOLS_GLOBAL_HOOK__',
+         'lX @',
+         'ol @',
+         'lM @',
+         'lO @',
+         'lC @',
+         'lw @'
+       ];
+       
+       function shouldSuppress(message) {
+         return suppressedPatterns.some(pattern => 
+           message.toLowerCase().includes(pattern.toLowerCase())
+         );
+       }
+       
+       console.error = function(...args) {
+         const message = args.join(' ');
+         if (!shouldSuppress(message)) {
+           originalConsole.error.apply(console, args);
+         }
+       };
+       
+       console.warn = function(...args) {
+         const message = args.join(' ');
+         if (!shouldSuppress(message)) {
+           originalConsole.warn.apply(console, args);
+         }
+       };
+       
+       // Intercept and block unwanted network requests
+       if (window.fetch) {
+         const originalFetch = window.fetch;
+         window.fetch = function(url, options) {
+           if (typeof url === 'string' && (
+             url.includes('@vite/client') || 
+             url.includes('inspector.') ||
+             url.includes('__vite') ||
+             url.includes('react-devtools') ||
+             url.includes('__react_devtools_global_hook__')
+           )) {
+             return Promise.resolve(new Response('', { status: 204 }));
+           }
+           return originalFetch.apply(this, arguments);
+         };
+       }
+       
+       // Block script injection
+       const originalCreateElement = document.createElement;
+       document.createElement = function(tagName) {
+         const element = originalCreateElement.call(this, tagName);
+         if (tagName.toLowerCase() === 'script') {
+           const originalSetAttribute = element.setAttribute;
+           element.setAttribute = function(name, value) {
+             if (name === 'src' && typeof value === 'string' && (
+               value.includes('inspector.') ||
+               value.includes('@vite/client') ||
+               value.includes('react-devtools')
+             )) {
+               return; // Block the script
+             }
+             return originalSetAttribute.call(this, name, value);
+           };
+         }
+         return element;
+       };
+       
+     })();
+   </script>
+  <script src="script.js" defer></script>
+  <title>Fake Store</title>
+</head>
+<body>
+  <header>
+    <div class="logo">FakeStore</div>
+    <nav>
+      <ul id="categories">
+        <!-- Mega menu structure will be injected here -->
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home-section" class="home-section">
+      <h1>Welcome to FakeStore!</h1>
+      <p>Discover the best products in our store. Use the categories above to browse.</p>
+    </section>
+    <section id="products" class="hero"></section>
+  </main>
+
+  <div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <p id="modal-message"></p>
+      <button class="close-btn" onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
+  <div id="panelOverlay" class="panel-overlay"></div>
+
+  <div id="cartPanel" class="panel"></div>
+  <div id="wishlistPanel" class="panel"></div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="modal" onclick="closeCheckoutModal(event)">
+    <div class="modal-content checkout-modal" onclick="event.stopPropagation()">
+      <h2>Checkout</h2>
+      <div id="checkoutContent">
+        <!-- Checkout content will be populated here -->
+      </div>
+      <button class="close-btn" onclick="closeCheckoutModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Cart Animation Element -->
+  <div id="cartAnimation" class="cart-animation">
+    <span>🛒</span>
+    <span class="animation-text">Added to Cart!</span>
+  </div>
+
+  <footer>
+    The Fake store is Made by Aun Abbas
+  </footer>
+</body>
+</html>
