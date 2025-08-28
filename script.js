@@ -49,6 +49,9 @@ const apiURL = 'https://dummyjson.com';
       const homeA = document.createElement('a');
       homeA.href = '#home';
       homeA.textContent = 'Home';
+      homeA.style.touchAction = 'manipulation';
+      homeA.style.webkitTapHighlightColor = 'transparent';
+      homeA.style.userSelect = 'none';
       homeA.onclick = e => {
         e.preventDefault();
         showHome();
@@ -71,6 +74,9 @@ const apiURL = 'https://dummyjson.com';
         const megaA = document.createElement('a');
         megaA.href = '#';
         megaA.textContent = groupName;
+        megaA.style.touchAction = 'manipulation';
+        megaA.style.webkitTapHighlightColor = 'transparent';
+        megaA.style.userSelect = 'none';
         megaA.onclick = e => {
           e.preventDefault();
           
@@ -95,6 +101,9 @@ const apiURL = 'https://dummyjson.com';
             const categoryA = document.createElement('a');
             categoryA.href = `#${categoryName}`;
             categoryA.textContent = categoryName.charAt(0).toUpperCase() + categoryName.slice(1).replace('-', ' ');
+            categoryA.style.touchAction = 'manipulation';
+            categoryA.style.webkitTapHighlightColor = 'transparent';
+            categoryA.style.userSelect = 'none';
             categoryA.onclick = e => {
               e.preventDefault();
               showProducts(categoryName);
@@ -159,6 +168,9 @@ const apiURL = 'https://dummyjson.com';
       const cartLi = document.createElement('li');
       const cartBtn = document.createElement('button');
       cartBtn.textContent = 'Cart 🛒';
+      cartBtn.style.touchAction = 'manipulation';
+      cartBtn.style.webkitTapHighlightColor = 'transparent';
+      cartBtn.style.userSelect = 'none';
       cartBtn.onclick = () => {
         togglePanel('cartPanel');
         renderCart();
@@ -170,6 +182,9 @@ const apiURL = 'https://dummyjson.com';
       const wishLi = document.createElement('li');
       const wishBtn = document.createElement('button');
       wishBtn.textContent = 'Wishlist 💙';
+      wishBtn.style.touchAction = 'manipulation';
+      wishBtn.style.webkitTapHighlightColor = 'transparent';
+      wishBtn.style.userSelect = 'none';
       wishBtn.onclick = () => {
         togglePanel('wishlistPanel');
         renderWishlist();
@@ -198,15 +213,15 @@ const apiURL = 'https://dummyjson.com';
           <h3>${product.title}</h3>
           <p class="price">$${product.price.toFixed(2)}</p>
           <div class="buttons">
-            <button class="morphing-button" onclick="showProductDetails(${product.id})">
+            <button class="morphing-button" onclick="showProductDetails(${product.id})" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">
               <span>Details</span>
               <i class="fas fa-info-circle"></i>
             </button>
-            <button class="morphing-button" onclick="addToCart(${product.id})">
+            <button class="morphing-button" onclick="addToCart(${product.id})" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">
               <span>Add to Cart</span>
               <i class="fas fa-shopping-cart"></i>
             </button>
-            <button class="morphing-button" onclick="addToWishlist(${product.id})">
+            <button class="morphing-button" onclick="addToWishlist(${product.id})" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">
               <span>Wishlist</span>
               <i class="fas fa-heart"></i>
             </button>
@@ -288,6 +303,9 @@ const apiURL = 'https://dummyjson.com';
       cart.push(productId);
       setCart(cart);
       
+      // Update cart UI immediately
+      renderCart();
+      
       // Show cart animation
       showCartAnimation();
     }
@@ -311,13 +329,17 @@ const apiURL = 'https://dummyjson.com';
       }
       wishlist.push(productId);
       setWishlist(wishlist);
+      
+      // Update wishlist UI immediately
+      renderWishlist();
+      
       showModal('Product added to wishlist.');
     }
 
     // Render cart panel
     async function renderCart() {
       const cart = getCart();
-      cartPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Cart</h2><button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" class="close-panel-btn" onclick="hidePanels()"><i class="fa-solid fa-circle-xmark"></i></button></div>';
+      cartPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Cart</h2><button style="background: none; border: none; font-size: 1.5rem; cursor: pointer; overflow: visible; padding: 0.3rem; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;" class="close-panel-btn" onclick="hidePanels()"><i class="fa-solid fa-circle-xmark"></i></button></div>';
       if (cart.length === 0) {
         cartPanel.innerHTML += '<p class="empty">Your cart is empty.</p>';
         return;
@@ -335,7 +357,7 @@ const apiURL = 'https://dummyjson.com';
             <h4>${product.title}</h4>
             <p>$${product.price.toFixed(2)}</p>
           </div>
-          <button onclick="removeFromCart(${product.id})">Remove</button>
+          <button onclick="removeFromCart(${product.id})" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">Remove</button>
         `;
         cartPanel.appendChild(div);
       });
@@ -349,7 +371,7 @@ const apiURL = 'https://dummyjson.com';
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
           <strong>Total: $${total.toFixed(2)}</strong>
         </div>
-        <button onclick="openCheckout()" style="width: 100%; background: #00ffff; color: #000; font-weight: bold; padding: 1rem;">
+        <button onclick="openCheckout()" style="width: 100%; background: #00ffff; color: #000; font-weight: bold; padding: 1rem; overflow: visible; white-space: nowrap; min-height: 44px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">
           Proceed to Checkout
         </button>
       `;
@@ -366,7 +388,7 @@ const apiURL = 'https://dummyjson.com';
     // Render wishlist panel
     async function renderWishlist() {
       const wishlist = getWishlist();
-      wishlistPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Wishlist</h2><button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" class="close-panel-btn" onclick="hidePanels()"><i class="fa-solid fa-circle-xmark"></i></button></div>';
+      wishlistPanel.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center;"><h2>Your Wishlist</h2><button style="background: none; border: none; font-size: 1.5rem; cursor: pointer; overflow: visible; padding: 0.3rem; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;" class="close-panel-btn" onclick="hidePanels()"><i class="fa-solid fa-circle-xmark"></i></button></div>';
       if (wishlist.length === 0) {
         wishlistPanel.innerHTML += '<p class="empty">Your wishlist is empty.</p>';
         return;
@@ -381,7 +403,7 @@ const apiURL = 'https://dummyjson.com';
             <h4>${product.title}</h4>
             <p>$${product.price.toFixed(2)}</p>
           </div>
-          <button onclick="removeFromWishlist(${product.id})">Remove</button>
+          <button onclick="removeFromWishlist(${product.id})" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">Remove</button>
         `;
         wishlistPanel.appendChild(div);
       });
@@ -494,8 +516,8 @@ const apiURL = 'https://dummyjson.com';
           </div>
 
           <div class="checkout-buttons">
-            <button type="button" class="btn-secondary" onclick="closeCheckoutModal()">Cancel</button>
-            <button type="submit" class="btn-primary">Place Order</button>
+            <button type="button" class="btn-secondary" onclick="closeCheckoutModal()" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">Cancel</button>
+            <button type="submit" class="btn-primary" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;">Place Order</button>
           </div>
         </form>
       `;

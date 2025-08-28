@@ -122,20 +122,62 @@ nav ul {
 nav a,
 nav button {
   color: #00ffff;
-  background: none;
-  border: none;
+  background: linear-gradient(135deg, transparent 0%, rgba(0, 255, 255, 0.1) 100%);
+  border: 1px solid transparent;
   cursor: pointer;
   font-size: 1rem;
   text-decoration: none;
-  padding: 0.2rem 0.4rem;
-  transition: color 0.3s ease;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 255, 255, 0.1);
 }
+
+nav a::before,
+nav button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  border-radius: inherit;
+}
+
 nav a:hover,
 nav button:hover {
   text-decoration: none !important;
   color: #000000;
-  background-color: #00ffff;
-  border-radius: 4px;
+  background: linear-gradient(135deg, #00ffff 0%, #00cccc 50%, #00ffff 100%);
+  background-size: 200% 200%;
+  border-color: rgba(0, 255, 255, 0.3);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 255, 255, 0.3), 0 0 0 2px rgba(0, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+nav a:hover::before,
+nav button:hover::before {
+  transform: translateX(100%);
+}
+
+nav a:active,
+nav button:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
+  transition: all 0.1s ease;
+}
+
+nav a:focus,
+nav button:focus {
+  outline: none;
+  box-shadow: 0 8px 16px rgba(0, 255, 255, 0.3), 0 0 0 3px rgba(0, 255, 255, 0.4);
 }
 nav a.active {
   text-decoration: none !important;
@@ -201,75 +243,256 @@ main {
   flex-wrap: wrap;
   align-items: stretch;
 }
-/* Modern Button Styles - Inspired by UI Universe */
+/* Modern Button Styles - Uiverse.io Inspired Design */
 .morphing-button {
   position: relative;
-  padding: 10px 20px;
-  background-color: #00ffff;
-  color: #000;
-  border: none;
-  border-radius: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  color: #00ffff;
+  border: 2px solid transparent;
+  border-radius: 12px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   flex: 1;
-  min-height: 36px;
-  box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+  min-height: 40px;
+  min-width: 120px;
+  white-space: nowrap;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+              linear-gradient(45deg, #00ffff, #00cccc, #008888, #00ffff) border-box;
+  animation: border-glow 2s linear infinite;
+}
+
+/* Keyframe Animations - Uiverse.io Inspired */
+@keyframes border-glow {
+  0% {
+    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+                linear-gradient(45deg, #00ffff, #00cccc, #008888, #00ffff) border-box;
+  }
+  25% {
+    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+                linear-gradient(45deg, #00cccc, #008888, #00ffff, #00cccc) border-box;
+  }
+  50% {
+    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+                linear-gradient(45deg, #008888, #00ffff, #00cccc, #008888) border-box;
+  }
+  75% {
+    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+                linear-gradient(45deg, #00ffff, #00cccc, #008888, #00ffff) border-box;
+  }
+  100% {
+    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, 
+                linear-gradient(45deg, #00cccc, #008888, #00ffff, #00cccc) border-box;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.3), 
+                0 0 10px rgba(0, 255, 255, 0.2), 
+                0 0 15px rgba(0, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 
+                0 0 20px rgba(0, 255, 255, 0.3), 
+                0 0 30px rgba(0, 255, 255, 0.2);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
 .morphing-button::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(-100%);
-  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-  z-index: 1;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00ffff, #00cccc, #008888, #00ffff);
+  border-radius: inherit;
+  z-index: -1;
+  animation: border-glow 2s linear infinite;
+  filter: blur(1px);
+}
+
+.morphing-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.4s ease;
+  z-index: 2;
 }
 
 .morphing-button:hover::before {
-  transform: translateX(0);
+  filter: blur(2px);
+  animation-duration: 1s;
+}
+
+.morphing-button:active::after {
+  animation: ripple 0.6s ease-out;
 }
 
 .morphing-button span, .morphing-button i {
   position: relative;
-  z-index: 2;
-  transition: transform 0.3s ease;
+  z-index: 3;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .morphing-button:hover span, .morphing-button:hover i {
-  transform: translateX(3px);
+  transform: scale(1.05);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  color: #ffffff;
 }
 
 .morphing-button:hover {
-  box-shadow: 0 15px 25px rgba(0, 255, 255, 0.3);
-  transform: translateY(-3px);
+  transform: translateY(-2px) scale(1.02);
+  animation: pulse-glow 1.5s ease-in-out infinite, border-glow 1s linear infinite;
+  background: linear-gradient(#0f0f0f, #0f0f0f) padding-box, 
+              linear-gradient(45deg, #00ffff, #00cccc, #008888, #00ffff) border-box;
 }
 
-/* Default button styles for other buttons */
+/* Accessibility and Focus States for Morphing Button */
+.morphing-button:focus {
+  outline: none;
+  animation: pulse-glow 1s ease-in-out infinite, border-glow 0.8s linear infinite;
+  transform: translateY(-1px);
+}
+
+.morphing-button:focus-visible {
+  outline: 2px solid #00ffff;
+  outline-offset: 4px;
+}
+
+.morphing-button:active {
+  transform: translateY(0) scale(0.98);
+  animation: border-glow 0.5s linear infinite;
+  transition: all 0.1s ease;
+}
+
+.morphing-button[aria-pressed="true"] {
+  background: linear-gradient(#0a0a0a, #0a0a0a) padding-box, 
+              linear-gradient(45deg, #008888, #00ffff, #00cccc, #008888) border-box;
+  color: #ffffff;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .morphing-button {
+    border: 2px solid #00ffff;
+    background: #000000;
+    color: #ffffff;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .morphing-button {
+    animation: none;
+    transition: none;
+  }
+  
+  .morphing-button::before {
+    animation: none;
+  }
+  
+  .morphing-button:hover {
+    animation: none;
+  }
+}
+
+/* Enhanced Default Button Styles - Uiverse.io Inspired */
 button:not(.morphing-button) {
-  background-color: #00ffff;
-  color: #000;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 4px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  color: #00ffff;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
   flex: 1;
   font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 80px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+button:not(.morphing-button)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  border-radius: inherit;
+  z-index: 1;
 }
 
 button:not(.morphing-button):hover {
-  background-color: #00cccc;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  border-color: rgba(0, 255, 255, 0.6);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+button:not(.morphing-button):hover::before {
+  transform: translateX(100%);
+}
+
+button:not(.morphing-button):focus {
+  outline: none;
+  border-color: rgba(0, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+button:not(.morphing-button):focus-visible {
+  outline: 2px solid #00ffff;
+  outline-offset: 3px;
+}
+
+button:not(.morphing-button):active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 255, 255, 0.4);
+  transition: all 0.1s ease;
 }
 footer {
   text-align: center;
@@ -292,21 +515,160 @@ footer {
   z-index: 9999;
 }
 .modal-content {
-  background: #121212;
-  padding: 2rem;
-  border-radius: 8px;
+  background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+  padding: 2.5rem;
+  border-radius: 16px;
   text-align: center;
   color: #00ffff;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 0 10px #00ffffaa;
+  max-width: 480px;
+  width: 95%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+.modal-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #00ffff 50%, transparent 100%);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.modal-content h2 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.modal-content img {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+  border: 2px solid rgba(0, 255, 255, 0.2);
+}
+
+.modal-content img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 255, 255, 0.3);
+}
+
+.modal-content p {
+  line-height: 1.6;
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.modal-content p strong {
+  color: #00ffff;
+  font-weight: 600;
+}
+
+@keyframes modalSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 .modal-content button.close-btn {
   margin-top: 1.5rem;
-  background-color: #00cccc;
-  color: #000;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #00ffff;
   font-weight: bold;
+  padding: 0.7rem 2rem;
+  min-width: 100px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.25);
+  position: relative;
+  font-size: 1rem;
+  animation: border-glow 2s ease-in-out infinite alternate;
+}
+
+.modal-content button.close-btn::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+  border-radius: 8px;
+  z-index: -1;
+  animation: border-glow 2s ease-in-out infinite alternate;
+  filter: blur(1px);
+}
+
+.modal-content button.close-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.3) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  border-radius: inherit;
+}
+
+.modal-content button.close-btn:hover {
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.3);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  animation: border-glow 0.5s ease-in-out infinite alternate, pulse-glow 1s ease-in-out infinite;
+}
+
+.modal-content button.close-btn:hover::before {
+  animation-duration: 0.5s;
+}
+
+.modal-content button.close-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.modal-content button.close-btn:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 255, 255, 0.3);
+  transition: all 0.1s ease;
+}
+
+.modal-content button.close-btn:focus {
+  outline: none;
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4), 0 0 0 3px rgba(0, 255, 255, 0.5);
 }
 
 /* Panel overlay */
@@ -379,6 +741,12 @@ footer {
   font-size: 0.8rem;
   margin-left: 0.5rem;
   transition: background-color 0.3s ease;
+  overflow: visible; /* Prevent text clipping */
+  white-space: nowrap; /* Prevent text from wrapping */
+  min-width: 70px; /* Ensure minimum width for button text */
+  touch-action: manipulation; /* Optimize for touch */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  user-select: none; /* Prevent text selection when tapping */
 }
 .panel .product button:hover {
   background-color: #cc0033;
@@ -555,52 +923,381 @@ footer {
   padding: 0.6rem;
   font-size: 1.1rem;
   font-weight: bold;
+  overflow: visible;
+  white-space: nowrap;
+  min-width: 100px;
+  touch-action: manipulation; /* Optimize for touch */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  user-select: none; /* Prevent text selection when tapping */
 }
 
 .btn-primary {
-  background: #00ffff;
-  color: #000;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #00ffff;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+  animation: border-glow 2s ease-in-out infinite alternate;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+  border-radius: inherit;
+  z-index: -1;
+  animation: border-glow 2s ease-in-out infinite alternate;
+  filter: blur(1px);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.3);
+  animation: border-glow 0.5s ease-in-out infinite alternate, pulse-glow 1s ease-in-out infinite;
 }
 
 .btn-secondary {
-  background: transparent;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.3) 0%, rgba(22, 33, 62, 0.3) 50%, rgba(15, 52, 96, 0.3) 100%);
   color: #00ffff;
-  border: 2px solid #00ffff;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+  animation: border-glow 2s ease-in-out infinite alternate;
 }
 
-/* Close Panel Button */
-.close-panel-btn {
-  background: none !important;
-  border: none;
+.btn-secondary::before {
+  content: "";
   position: absolute;
-  top: 20px;
-  right: 40px;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+  border-radius: inherit;
+  z-index: -1;
+  animation: border-glow 2s ease-in-out infinite alternate;
+  filter: blur(1px);
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(22, 33, 62, 0.6) 50%, rgba(26, 26, 46, 0.6) 100%);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.3);
+  animation: border-glow 0.5s ease-in-out infinite alternate, pulse-glow 1s ease-in-out infinite;
+}
+
+/* Close Panel Button - Uiverse.io Inspired Design */
+.close-panel-btn {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: absolute;
+  top: 15px;
+  right: 15px;
   color: #00ffff;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.2rem;
-  margin: 10px auto;
-  width: 25px;
-  height: 25px;
+  padding: 0.4rem;
+  margin: 0;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+  overflow: hidden;
+  z-index: 10;
+  position: relative;
+  animation: border-glow 2s ease-in-out infinite alternate;
+}
+
+.close-panel-btn::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+  border-radius: 50%;
+  z-index: -1;
+  animation: border-glow 2s ease-in-out infinite alternate;
+  filter: blur(1px);
+}
+
+.close-panel-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.6) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
 }
 
 .close-panel-btn:hover {
-  background-color: rgba(0, 255, 255, 0.2);
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 10px turquoise);
-  color: #00cccc !important;
-  transition: all 0.2s ease-in-out;
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.3);
+  color: #ffffff;
+  animation: border-glow 0.5s ease-in-out infinite alternate, pulse-glow 1s ease-in-out infinite;
+}
+
+.close-panel-btn:hover::before {
+  animation-duration: 0.5s;
+}
+
+.close-panel-btn:hover::after {
+  width: 100%;
+  height: 100%;
+}
+
+.close-panel-btn:active {
+  transform: scale(1.05) rotate(90deg);
+  transition: all 0.1s ease;
+}
+
+/* Enhanced Accessibility and Focus States */
+.morphing-button:focus {
+  outline: none;
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4), 0 0 0 3px rgba(0, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.morphing-button:focus-visible {
+  outline: 2px solid #00ffff;
+  outline-offset: 2px;
+}
+
+.morphing-button:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 8px 16px rgba(0, 255, 255, 0.3), 0 0 0 2px rgba(0, 255, 255, 0.4);
+  transition: all 0.1s ease;
+}
+
+/* Accessibility improvements for screen readers */
+.morphing-button[aria-pressed="true"] {
+  background: linear-gradient(135deg, #00cccc 0%, #008888 50%, #00cccc 100%);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 255, 255, 0.2);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .morphing-button {
+    border: 2px solid #00ffff;
+    background: #000;
+    color: #00ffff;
+  }
+  
+  .morphing-button:hover {
+    background: #00ffff;
+    color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .morphing-button {
+    animation: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .morphing-button::before,
+  .morphing-button::after {
+    display: none;
+  }
+  
+  .morphing-button:hover {
+    animation: none;
+    transform: none;
+  }
+  
+  .morphing-button:hover span,
+  .morphing-button:hover i {
+    transform: none;
+  }
+}
+
+/* Button Active States for Touch Devices */
+
+button:not(.morphing-button):active {
+  transform: scale(0.95);
+  background-color: #00cccc;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.panel .product button:active {
+  transform: scale(0.95);
+  background-color: #cc0033;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.modal-content button.close-btn:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Orientation Change Handling */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .morphing-button {
+    min-height: 32px;
+    padding: 6px 12px;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .morphing-button {
+    width: calc(50% - 0.15rem);
+    flex: 0 1 auto;
+  }
+  
+  .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
 }
 
 /* Responsive */
+/* Ultra-Wide and 4K Displays */
+@media (min-width: 2560px) {
+  header {
+    padding: 1.5rem 4rem;
+    min-height: 90px;
+  }
+  
+  .logo {
+    font-size: 2.2rem;
+  }
+  
+  nav ul {
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+  }
+  
+  nav a, nav button {
+    font-size: 1.3rem;
+    padding: 0.6rem 1.2rem;
+    white-space: nowrap;
+  }
+  
+  .mega-dropdown {
+    min-width: 280px;
+    padding: 1.5rem;
+  }
+  
+  .mega-dropdown a {
+    padding: 0.7rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .hero {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+  
+  .morphing-button {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    min-width: 180px;
+    min-height: 48px;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.8rem 1.6rem;
+    font-size: 1.2rem;
+    min-width: 140px;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.8rem 1.2rem;
+    min-width: 160px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Large 4K and QHD Displays */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  header {
+    padding: 1.4rem 3.5rem;
+    min-height: 85px;
+  }
+  
+  .logo {
+    font-size: 2rem;
+  }
+  
+  nav ul {
+    gap: 2.2rem;
+    flex-wrap: nowrap;
+  }
+  
+  nav a, nav button {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+  }
+  
+  .mega-dropdown {
+    min-width: 260px;
+    padding: 1.3rem;
+  }
+  
+  .mega-dropdown a {
+    padding: 0.6rem 0;
+    font-size: 1.05rem;
+  }
+  
+  .hero {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.8rem;
+  }
+  
+  .morphing-button {
+    padding: 14px 28px;
+    font-size: 1rem;
+    min-width: 160px;
+    min-height: 44px;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.7rem 1.4rem;
+    font-size: 1.1rem;
+    min-width: 120px;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.7rem 1rem;
+    min-width: 140px;
+    font-size: 1rem;
+  }
+}
+
 /* Large Laptops and Desktops */
-@media (min-width: 1440px) {
+@media (min-width: 1440px) and (max-width: 1919px) {
   header {
     padding: 1.2rem 3rem;
   }
@@ -622,6 +1319,18 @@ footer {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
   }
+  
+  .morphing-button {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    min-width: 140px;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    min-width: 100px;
+  }
 }
 
 /* Standard Laptops */
@@ -641,6 +1350,22 @@ footer {
   .hero {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.2rem;
+  }
+  
+  .morphing-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 130px;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.5rem 1rem;
+    min-width: 90px;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.6rem;
+    min-width: 120px;
   }
 }
 
@@ -663,6 +1388,22 @@ footer {
   .hero {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
+  
+  .morphing-button {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+  
+  .panel .product button {
+    min-width: 70px;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.5rem;
+    min-width: 110px;
+  }
 }
 
 /* Small Laptops and Tablets */
@@ -674,6 +1415,7 @@ footer {
   header {
     padding: 0.8rem 1.5rem;
     flex-wrap: wrap;
+    min-height: 70px;
   }
 
   .logo {
@@ -683,6 +1425,58 @@ footer {
   nav ul {
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  nav a, nav button {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+    white-space: nowrap;
+  }
+  
+  .mega-dropdown {
+    min-width: 200px;
+    padding: 1rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  
+  .mega-menu.active .mega-dropdown {
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  .mega-dropdown a {
+    padding: 0.4rem 0;
+    font-size: 0.85rem;
+  }
+  
+  .morphing-button {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    min-width: 110px;
+    min-height: 40px;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    min-width: 80px;
+  }
+  
+  .panel .product button {
+    min-width: 65px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.5rem;
+    min-width: 100px;
+    font-size: 1rem;
+  }
+  
+  .buttons {
+    gap: 0.3rem;
   }
 }
 
@@ -691,12 +1485,26 @@ footer {
     flex-direction: column;
     gap: 1rem;
     padding: 0.8rem 0.5rem;
+    min-height: 60px;
   }
 
   nav ul {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.5rem;
+    width: 100%;
+  }
+  
+  nav a, nav button {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+    text-align: center;
   }
 
   .hero {
@@ -723,10 +1531,46 @@ footer {
     padding: 8px 12px;
     font-size: 0.8rem;
     gap: 4px;
+    min-width: 100px;
+    min-height: 38px;
+    flex: 0 1 auto;
+    width: calc(50% - 0.15rem);
+    justify-content: center;
+    text-align: center;
   }
   
   .morphing-button span {
     font-size: 0.8rem;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
+    min-width: 70px;
+    flex: 0 1 auto;
+  }
+  
+  .panel .product button {
+    min-width: 60px;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.5rem;
+    min-width: 90px;
+    font-size: 0.9rem;
+  }
+  
+  .buttons {
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .modal-content button.close-btn {
+    padding: 0.4rem 1rem;
+    min-width: 70px;
   }
 }
 
@@ -765,27 +1609,65 @@ footer {
   }
 
   .buttons {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.3rem;
+    justify-content: space-between;
   }
   
   .morphing-button {
-    padding: 10px 12px;
-    font-size: 0.8rem;
-    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    min-height: 36px;
+    width: calc(50% - 0.15rem);
+    min-width: 0;
+    flex: 0 0 auto;
   }
   
   .morphing-button span {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   
   .morphing-button i {
     font-size: 0.7rem;
   }
+  
+  button:not(.morphing-button) {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+    min-width: 60px;
+  }
+  
+  .panel .product button {
+    min-width: 55px;
+    padding: 0.2rem 0.35rem;
+    font-size: 0.7rem;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.4rem;
+    min-width: 100%;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
 
   .home-section {
     padding: 1.5rem 0.8rem;
     font-size: 1.2rem;
+  }
+  
+  .modal-content button.close-btn {
+    padding: 0.35rem 0.8rem;
+    min-width: 60px;
+    font-size: 0.75rem;
+  }
+  
+  .close-panel-btn {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
   }
 }
 
@@ -800,7 +1682,7 @@ footer {
 
   nav a,
   nav button {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     padding: 0.2rem 0.3rem;
   }
 
@@ -811,5 +1693,170 @@ footer {
   .cart-animation {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
+  }
+  
+  .morphing-button {
+    padding: 7px 8px;
+    font-size: 0.7rem;
+    min-height: 34px;
+    width: 100%;
+    margin-bottom: 0.2rem;
+  }
+  
+  .morphing-button span {
+    font-size: 0.7rem;
+  }
+  
+  .morphing-button i {
+    font-size: 0.65rem;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    min-width: 50px;
+    width: 100%;
+    margin-bottom: 0.2rem;
+  }
+  
+  .panel .product button {
+    min-width: 50px;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.65rem;
+    width: auto;
+    margin-bottom: 0;
+  }
+  
+  .buttons {
+    flex-direction: column;
+  }
+  
+  .modal-content button.close-btn {
+    padding: 0.3rem 0.7rem;
+    min-width: 50px;
+    font-size: 0.7rem;
+  }
+  
+  .close-panel-btn {
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+}
+
+/* Large Screen Optimizations - 1600px and above */
+@media (min-width: 1600px) {
+  .morphing-button {
+    padding: 16px 32px;
+    font-size: 18px;
+    min-height: 52px;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(0, 255, 255, 0.25);
+  }
+  
+  .morphing-button:hover {
+    transform: translateY(-2px) scale(1.08);
+    box-shadow: 0 18px 35px rgba(0, 255, 255, 0.35);
+  }
+  
+  button:not(.morphing-button) {
+    padding: 14px 28px;
+    font-size: 16px;
+    min-height: 48px;
+    border-radius: 6px;
+  }
+  
+  .panel .product button {
+    padding: 12px 20px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+  
+  .checkout-buttons button {
+    padding: 16px 32px;
+    font-size: 18px;
+    min-height: 52px;
+  }
+}
+
+/* Ultra-Wide Displays - 2560px and above */
+@media (min-width: 2560px) {
+  .morphing-button {
+    padding: 20px 40px;
+    font-size: 20px;
+    min-height: 56px;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 255, 255, 0.3);
+  }
+  
+  .morphing-button:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 20px 40px rgba(0, 255, 255, 0.4);
+  }
+  
+  button:not(.morphing-button) {
+    padding: 16px 32px;
+    font-size: 18px;
+    min-height: 52px;
+    border-radius: 8px;
+  }
+  
+  .panel .product button {
+    padding: 14px 24px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+  
+  .checkout-buttons button {
+    padding: 20px 40px;
+    font-size: 20px;
+    min-height: 56px;
+  }
+}
+
+/* Very Small Mobile Devices */
+@media (max-width: 320px) {
+  .morphing-button {
+    padding: 6px 7px;
+    font-size: 0.65rem;
+    min-height: 32px;
+  }
+  
+  .morphing-button span {
+    font-size: 0.65rem;
+  }
+  
+  .morphing-button i {
+    font-size: 0.6rem;
+  }
+  
+  button:not(.morphing-button) {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.65rem;
+  }
+  
+  .panel .product button {
+    min-width: 45px;
+    padding: 0.15rem 0.25rem;
+    font-size: 0.6rem;
+  }
+  
+  .modal-content button.close-btn {
+    padding: 0.25rem 0.5rem;
+    min-width: 45px;
+    font-size: 0.65rem;
+  }
+  
+  .checkout-buttons button {
+    padding: 0.3rem;
+    font-size: 0.75rem;
+  }
+  
+  nav a,
+  nav button {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.25rem;
   }
 }
