@@ -162,14 +162,21 @@ async function loadCategories() {
     const res = await fetch(`${apiURL}/products/category-list`);
     const categories = await res.json();
     
-    // Keep the mobile nav header, clear other items
+    // Keep the mobile nav header and search item, clear other items
     const mobileHeader = DOM.categoriesNav.querySelector('.mobile-nav-header');
+    const mobileSearch = DOM.categoriesNav.querySelector('.mobile-search-item');
+    
     DOM.categoriesNav.innerHTML = '';
+    
     if (mobileHeader) {
       DOM.categoriesNav.appendChild(mobileHeader);
       // Re-attach event listener if needed, or just rely on initMobileNav
       const closeBtn = mobileHeader.querySelector('.mobile-nav-close');
       if (closeBtn) closeBtn.onclick = closeMobileNav;
+    }
+
+    if (mobileSearch) {
+      DOM.categoriesNav.appendChild(mobileSearch);
     }
     
     // Create Home button

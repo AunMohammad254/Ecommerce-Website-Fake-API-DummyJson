@@ -169,6 +169,12 @@
 <body>
   <header>
     <div class="logo">FakeStore</div>
+    
+    <div class="search-bar">
+      <input type="text" placeholder="Search for products..." aria-label="Search products">
+      <button aria-label="Search"><i class="fas fa-search"></i></button>
+    </div>
+
     <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
@@ -179,6 +185,14 @@
         <li class="mobile-nav-header">
           <span class="mobile-nav-title">Menu</span>
           <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+        </li>
+        <li class="mobile-search-item">
+            <div class="search-bar mobile-search">
+                <input type="text" placeholder="Search products...">
+                <button type="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
         </li>
         <!-- Mega menu structure will be injected here -->
       </ul>
