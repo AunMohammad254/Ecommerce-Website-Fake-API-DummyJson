@@ -33,32 +33,50 @@
          apps: []
        };
        
-       // Prevent React DevTools completely
-       window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { 
-         isDisabled: true,
-         supportsFiber: false,
-         inject: () => {},
-         onCommitFiberRoot: () => {},
-         onCommitFiberUnmount: () => {},
-         checkDCE: () => {},
-         onScheduleFiberRoot: () => {},
-         setStrictMode: () => {},
-         supportsProfiling: false,
-         supportsStrictMode: false
-       };
+       // Safely prevent React DevTools
+       try {
+         if (typeof window !== 'undefined' && !window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+           window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { 
+             isDisabled: true,
+             supportsFiber: false,
+             inject: () => {},
+             onCommitFiberRoot: () => {},
+             onCommitFiberUnmount: () => {},
+             checkDCE: () => {},
+             onScheduleFiberRoot: () => {},
+             setStrictMode: () => {},
+             supportsProfiling: false,
+             supportsStrictMode: false
+           };
+         }
+       } catch (e) {
+         // Ignore errors when setting React DevTools hook
+       }
        
-       // Prevent any React-related globals
-       Object.defineProperty(window, 'React', {
-         get: () => undefined,
-         set: () => {},
-         configurable: false
-       });
+       // Prevent any React-related globals safely
+       try {
+         if (!window.React) {
+           Object.defineProperty(window, 'React', {
+             get: () => undefined,
+             set: () => {},
+             configurable: true
+           });
+         }
+       } catch (e) {
+         // Ignore if already defined
+       }
        
-       Object.defineProperty(window, 'ReactDOM', {
-         get: () => undefined,
-         set: () => {},
-         configurable: false
-       });
+       try {
+         if (!window.ReactDOM) {
+           Object.defineProperty(window, 'ReactDOM', {
+             get: () => undefined,
+             set: () => {},
+             configurable: true
+           });
+         }
+       } catch (e) {
+         // Ignore if already defined
+       }
        
        // Override console methods to suppress development tool errors
        const originalConsole = {
@@ -79,7 +97,11 @@
          'lM @',
          'lO @',
          'lC @',
-         'lw @'
+         'lw @',
+         'csspeeper',
+         'Ad unit',
+         'Violation',
+         'Permissions policy'
        ];
        
        function shouldSuppress(message) {
@@ -147,8 +169,17 @@
 <body>
   <header>
     <div class="logo">FakeStore</div>
-    <nav>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    <nav id="mainNav">
       <ul id="categories">
+        <li class="mobile-nav-header">
+          <span class="mobile-nav-title">Menu</span>
+          <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+        </li>
         <!-- Mega menu structure will be injected here -->
       </ul>
     </nav>
@@ -156,8 +187,113 @@
 
   <main>
     <section id="home-section" class="home-section">
-      <h1>Welcome to FakeStore!</h1>
-      <p>Discover the best products in our store. Use the categories above to browse.</p>
+      <div class="hero-container">
+        <!-- Animated Background Elements -->
+        <div class="hero-bg-elements">
+          <div class="floating-shape shape-1"></div>
+          <div class="floating-shape shape-2"></div>
+          <div class="floating-shape shape-3"></div>
+          <div class="floating-shape shape-4"></div>
+          <div class="grid-overlay"></div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-icon">✨</span>
+            <span>Premium Quality Products</span>
+          </div>
+          
+          <h1 class="hero-title">
+            <span class="title-line">Welcome to</span>
+            <span class="title-highlight">FakeStore</span>
+          </h1>
+          
+          <p class="hero-description">
+            Discover an amazing collection of premium products at unbeatable prices. 
+            From electronics to fashion, we've got everything you need.
+          </p>
+          
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number">500+</span>
+              <span class="stat-label">Products</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">50K+</span>
+              <span class="stat-label">Customers</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">4.9★</span>
+              <span class="stat-label">Rating</span>
+            </div>
+          </div>
+          
+          <div class="hero-actions">
+            <button class="hero-btn primary-btn" onclick="document.querySelector('.mega-menu')?.classList.add('active')">
+              <span>Shop Now</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="hero-btn secondary-btn" onclick="document.getElementById('cartButton')?.click()">
+              <span>View Cart</span>
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+          
+          <div class="hero-features">
+            <div class="feature-item">
+              <i class="fas fa-truck"></i>
+              <span>Free Shipping</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>Secure Payment</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-undo"></i>
+              <span>Easy Returns</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hero Visual -->
+        <div class="hero-visual">
+          <div class="visual-card card-1">
+            <div class="card-glow"></div>
+            <span class="card-emoji">📱</span>
+            <span class="card-label">Electronics</span>
+          </div>
+          <div class="visual-card card-2">
+            <div class="card-glow"></div>
+            <span class="card-emoji">👗</span>
+            <span class="card-label">Fashion</span>
+          </div>
+          <div class="visual-card card-3">
+            <div class="card-glow"></div>
+            <span class="card-emoji">🏠</span>
+            <span class="card-label">Home</span>
+          </div>
+          <div class="visual-card card-4">
+            <div class="card-glow"></div>
+            <span class="card-emoji">💄</span>
+            <span class="card-label">Beauty</span>
+          </div>
+          <div class="center-circle">
+            <div class="circle-ring ring-1"></div>
+            <div class="circle-ring ring-2"></div>
+            <div class="circle-ring ring-3"></div>
+            <span class="circle-icon">🛒</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-arrow"></div>
+      </div>
     </section>
     <section id="products" class="hero"></section>
   </main>
@@ -169,10 +305,38 @@
     </div>
   </div>
 
-  <div id="panelOverlay" class="panel-overlay"></div>
+  <div id="panelOverlay" class="panel-overlay" data-testid="panel-overlay"></div>
 
-  <div id="cartPanel" class="panel"></div>
-  <div id="wishlistPanel" class="panel"></div>
+  <div id="cartPanel" class="panel" data-testid="cart-panel">
+    <div class="panel-header">
+      <div class="panel-title">
+        <i class="fas fa-shopping-cart"></i>
+        <h2>Shopping Cart</h2>
+      </div>
+      <button class="close-panel-btn" onclick="hidePanels()" data-testid="close-cart">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="panel-content" id="cartContent" data-testid="cart-content">
+      <p class="empty-message">Your cart is empty</p>
+    </div>
+    <div class="panel-footer" id="cartFooter" data-testid="cart-footer"></div>
+  </div>
+
+  <div id="wishlistPanel" class="panel" data-testid="wishlist-panel">
+    <div class="panel-header">
+      <div class="panel-title">
+        <i class="fas fa-heart"></i>
+        <h2>My Wishlist</h2>
+      </div>
+      <button class="close-panel-btn" onclick="hidePanels()" data-testid="close-wishlist">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="panel-content" id="wishlistContent" data-testid="wishlist-content">
+      <p class="empty-message">Your wishlist is empty</p>
+    </div>
+  </div>
 
   <!-- Checkout Modal -->
   <div id="checkoutModal" class="modal" onclick="closeCheckoutModal(event)">
